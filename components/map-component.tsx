@@ -4,7 +4,7 @@ import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet"
 import L from "leaflet"
 import "leaflet/dist/leaflet.css"
 import { espiritoSantoCities, type City } from "@/lib/es-cities"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 
@@ -91,14 +91,23 @@ function CityMarker({
 
 export default function MapComponent({ onMessageSubmit }: MapComponentProps) {
   const [isMounted, setIsMounted] = useState(false)
+  const [mapKey, setMapKey] = useState(0)
+  const mapRef = useRef<L.Map | null>(null)
 
   useEffect(() => {
     setIsMounted(true)
   }, [])
 
+  const handleMapReady = () => {
+    mapRef.current?.invalidateSize()
+    if (mapKey === 0) {
+      setMapKey(1)
+    }
+  }
+
   if (!isMounted) {
     return (
-      <div className="h-[500px] w-full rounded-xl bg-muted flex items-center justify-center">
+      <div className="h-full w-full rounded-xl bg-muted flex items-center justify-center">
         <p className="text-muted-foreground">Carregando mapa...</p>
       </div>
     )
@@ -108,12 +117,15 @@ export default function MapComponent({ onMessageSubmit }: MapComponentProps) {
   const center: [number, number] = [-19.8, -40.5]
 
   return (
-    <div className="h-[500px] w-full rounded-xl z-0 overflow-hidden">
+    <div className="w-full rounded-xl z-0 overflow-hidden" style={{ minHeight: 500 }}>
       <MapContainer
+        ref={mapRef}
+        key={mapKey}
         center={center}
         zoom={8}
         scrollWheelZoom={true}
-        style={{ height: "100%", width: "100%" }}
+        whenReady={handleMapReady}
+        className="h-[700px] w-full"
       >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'

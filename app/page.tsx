@@ -9,7 +9,7 @@ import { MapPin } from "lucide-react"
 const MapComponent = dynamic(() => import("@/components/map-component"), {
   ssr: false,
   loading: () => (
-    <div className="h-[500px] w-full rounded-xl bg-muted flex items-center justify-center">
+    <div className="h-full w-full rounded-xl bg-muted flex items-center justify-center">
       <p className="text-muted-foreground">Carregando mapa...</p>
     </div>
   ),
@@ -33,38 +33,44 @@ export default function Home() {
     <main className="min-h-screen bg-background">
       <div className="container mx-auto px-4 max-w-5xl">
         {/* Header */}
-        <header className="text-center mb-8">
-          <div className="inline-flex items-center justify-center gap-2 mb-4">
+        <header className="flex items-center justify-center text-center">
+          <div className="inline-flex gap-2">
             <img src='./icon.png' alt="Icone do Mapa" />
           </div>
-          <div className="flex justify-center items-center gap-2">
-            <h1 className="text-3xl font-bold text-foreground mb-2 text-balance">
-              Mapa do Espírito Santo
-            </h1>
-            <MapPin className="h-6 w-6 text-primary" />
+
+          <div className="text-center w-full">
+
+            <div className="flex justify-center items-center gap-2">
+
+              <MapPin className="h-6 w-6 text-primary" />
+              <h1 className="text-2xl font-bold text-foreground text-balance">
+                Qual lugar do <i>Espírito Santo</i> guarda a sua melhor história ?
+              </h1>
+              <MapPin className="h-6 w-6 text-primary" />
+            </div>
+            <p className="text-muted-foreground max-w-xl mx-auto text-pretty">
+
+              Clique no mapa para deixar sua mensagem
+            </p>
           </div>
-          <p className="text-muted-foreground max-w-xl mx-auto text-pretty">
-            Clique em qualquer cidade para deixar uma mensagem. Explore todas as 78 cidades do
-            estado!
-          </p>
         </header>
 
-        {/* Mapa */}
-        <section className="mb-8">
-          <MapComponent onMessageSubmit={handleMessageSubmit} />
-        </section>
-
-        {/* Lista de Mensagens */}
-        <section>
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl font-semibold text-foreground">
-              Mensagens{" "}
-              {messages.length > 0 && (
-                <span className="text-muted-foreground font-normal">({messages.length})</span>
-              )}
-            </h2>
+        <section className="h-[700px] b-8 grid gap-6 lg:grid-cols-[1.65fr_1fr]">
+          <div className="order-2 lg:order-1">
+            <MapComponent onMessageSubmit={handleMessageSubmit} />
           </div>
-          <MessageList messages={messages} />
+
+          <aside className="order-1 lg:order-2 rounded-3xl border border-border bg-card p-4 shadow-sm">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-xl font-semibold text-foreground">
+                Mensagens
+                {messages.length > 0 && (
+                  <span className="text-muted-foreground font-normal"> ({messages.length})</span>
+                )}
+              </h2>
+            </div>
+            <MessageList messages={messages} />
+          </aside>
         </section>
       </div>
     </main>
