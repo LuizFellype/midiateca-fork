@@ -24,6 +24,7 @@ L.Marker.prototype.options.icon = DefaultIcon
 interface Message {
   id: string
   city: string
+  username: string
   text: string
   timestamp: Date
 }
@@ -39,21 +40,24 @@ function CityMarker({
   city: City
   onMessageSubmit: (message: Message) => void
 }) {
+  const [author, setAuthor] = useState("")
   const [inputValue, setInputValue] = useState("")
   const [isSubmitting, setIsSubmitting] = useState(false)
   const map = useMap()
 
   const handleSubmit = () => {
-    if (!inputValue.trim()) return
+    if (!author.trim() || !inputValue.trim()) return
 
     setIsSubmitting(true)
     const message: Message = {
       id: `${city.name}-${Date.now()}`,
       city: city.name,
+      username: author.trim(),
       text: inputValue.trim(),
       timestamp: new Date(),
     }
     onMessageSubmit(message)
+    setAuthor("")
     setInputValue("")
     setIsSubmitting(false)
     map.closePopup()
@@ -66,6 +70,15 @@ function CityMarker({
           <h3 className="font-semibold text-base text-foreground">{city.name}</h3>
           <div className="space-y-2">
             <Input
+              placeholder="Digite seu nome"
+              value={author}
+              onChange={(e) => setAuthor(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") handleSubmit()
+              }}
+              className="text-sm"
+            />
+            <Input
               placeholder="Digite sua mensagem..."
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
@@ -76,7 +89,7 @@ function CityMarker({
             />
             <Button
               onClick={handleSubmit}
-              disabled={!inputValue.trim() || isSubmitting}
+              disabled={!author.trim() || !inputValue.trim() || isSubmitting}
               size="sm"
               className="w-full"
             >

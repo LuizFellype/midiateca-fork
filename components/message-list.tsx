@@ -6,6 +6,7 @@ import { MapPin, Clock, MessageCircle } from "lucide-react"
 interface Message {
   id: string
   city: string
+  username: string
   text: string
   timestamp: Date
 }
@@ -39,8 +40,11 @@ export default function MessageList({ messages }: MessageListProps) {
                 <MapPin className="h-5 w-5 text-primary" />
               </div>
               <div className="flex-1 min-w-0">
-                <div className="flex items-center justify-between gap-2">
-                  <h4 className="font-semibold text-foreground truncate">{message.city}</h4>
+                <div className="flex items-start justify-between gap-2">
+                  <div className="min-w-0">
+                    <h4 className="font-semibold text-foreground truncate">{message.city}</h4>
+                    <p className="text-xs text-muted-foreground truncate">Por {message.username}</p>
+                  </div>
                   <div className="flex items-center gap-1 text-xs text-muted-foreground flex-shrink-0">
                     <Clock className="h-3 w-3" />
                     <span>

@@ -18,6 +18,7 @@ const MapComponent = dynamic(() => import("@/components/map-component"), {
 interface Message {
   id: string
   city: string
+  username: string
   text: string
   timestamp: Date
 }
