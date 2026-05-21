@@ -108,19 +108,21 @@ export default function MapComponent({ onMessageSubmit }: MapComponentProps) {
   const center: [number, number] = [-19.8, -40.5]
 
   return (
-    <MapContainer
-      center={center}
-      zoom={8}
-      scrollWheelZoom={true}
-      className="h-[500px] w-full rounded-xl z-0"
-    >
-      <TileLayer
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-      />
-      {espiritoSantoCities.map((city) => (
-        <CityMarker key={city.name} city={city} onMessageSubmit={onMessageSubmit} />
-      ))}
-    </MapContainer>
+    <div className="h-[500px] w-full rounded-xl z-0 overflow-hidden">
+      <MapContainer
+        center={center}
+        zoom={8}
+        scrollWheelZoom={true}
+        style={{ height: "100%", width: "100%" }}
+      >
+        <TileLayer
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        />
+        {espiritoSantoCities.map((city) => (
+          <CityMarker key={city.name} city={city} onMessageSubmit={onMessageSubmit} />
+        ))}
+      </MapContainer>
+    </div>
   )
 }

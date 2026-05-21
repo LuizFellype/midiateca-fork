@@ -31,17 +31,18 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-background">
-      <div className="container mx-auto px-4 py-8 max-w-5xl">
+      <div className="container mx-auto px-4 max-w-5xl">
         {/* Header */}
         <header className="text-center mb-8">
           <div className="inline-flex items-center justify-center gap-2 mb-4">
-            <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center">
-              <MapPin className="h-6 w-6 text-primary" />
-            </div>
+            <img src='./icon.png' alt="Icone do Mapa" />
           </div>
-          <h1 className="text-3xl font-bold text-foreground mb-2 text-balance">
-            Mapa do Espírito Santo
-          </h1>
+          <div className="flex justify-center items-center gap-2">
+            <h1 className="text-3xl font-bold text-foreground mb-2 text-balance">
+              Mapa do Espírito Santo
+            </h1>
+            <MapPin className="h-6 w-6 text-primary" />
+          </div>
           <p className="text-muted-foreground max-w-xl mx-auto text-pretty">
             Clique em qualquer cidade para deixar uma mensagem. Explore todas as 78 cidades do
             estado!
